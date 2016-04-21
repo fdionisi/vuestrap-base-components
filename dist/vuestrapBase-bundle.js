@@ -2185,9 +2185,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _ref;
 
 	      return _ref = {
-	        'form-control': true,
-	        disabled: this.disabled
-	      }, _defineProperty(_ref, 'form-control-' + this.state, this.stateIcon && this.stateIcon !== 'default'), _defineProperty(_ref, 'form-control-' + this.size, this.size && this.size !== 'default'), _ref;
+	        'form-control': true
+	      }, _defineProperty(_ref, 'form-control-' + this.state, !!this.stateIcon && this.stateIcon !== 'default'), _defineProperty(_ref, 'form-control-' + this.size, !!this.size && this.size !== 'default'), _ref;
 	    }
 	  },
 	  props: {
@@ -2241,7 +2240,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 41 */
 /***/ function(module, exports) {
 
-	module.exports = "<fieldset class=\"form-group {{inputState}}\">\n    <label for=\"{{id}}\" v-if=\"label\" class=\"control-label\">{{label}}</label>\n    <div class=\"inputClass\">\n        <input\n        \ttype=\"{{type}}\"\n        \tv-bind:class=\"inputClass\"\n        \tid=\"{{id}}\"\n        \tplaceholder=\"{{placeholder}}\"\n        \tv-model=\"model\">\n    </div>\n    <small class=\"text-muted\" v-if=\"description\" v-html=\"description\"></small>\n</fieldset>\n";
+	module.exports = "<fieldset class=\"form-group {{inputState}}\">\n    <label for=\"{{id}}\" v-if=\"label\" class=\"control-label\">{{label}}</label>\n    <div class=\"inputClass\">\n        <input\n            v-bind:disabled=\"disabled\"\n            v-bind:class=\"inputClass\"\n        \ttype=\"{{type}}\"\n        \tid=\"{{id}}\"\n        \tplaceholder=\"{{placeholder}}\"\n        \tv-model=\"model\">\n    </div>\n    <small class=\"text-muted\" v-if=\"description\" v-html=\"description\"></small>\n</fieldset>\n";
 
 /***/ },
 /* 42 */
