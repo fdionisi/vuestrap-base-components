@@ -25,6 +25,9 @@ export default {
           [`form-control-${this.state}`]: !!this.stateIcon && this.stateIcon !== 'default',
           [`form-control-${this.size}`]: !!this.size && this.size !== 'default'
       }
+    },
+    isNumber() {
+        return this.type === 'number'
     }
   },
   props: {

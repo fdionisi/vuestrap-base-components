@@ -2,11 +2,12 @@
     <label for="{{id}}" v-if="label" class="control-label">{{label}}</label>
     <div class="inputClass">
         <input
-            v-bind:disabled="disabled"
-            v-bind:class="inputClass"
-        	type="{{type}}"
-        	id="{{id}}"
-        	placeholder="{{placeholder}}"
+            :disabled="disabled"
+            :class="inputClass"
+            :number="isNumber"
+        	:type="type"
+        	:id="id"
+        	:placeholder="placeholder"
         	v-model="model">
     </div>
     <small class="text-muted" v-if="description" v-html="description"></small>
