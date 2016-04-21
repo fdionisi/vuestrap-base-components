@@ -10,14 +10,22 @@ export default {
     inputState() {
       return !this.state || this.state === `default` ? `` : `has-${this.state}`
     },
-    stateIconType() {
-      return !this.stateIcon || this.stateIcon === `default` ? `` : `form-control-${this.state}`
-    },
-    inputSize() {
-      return !this.size || this.size === `default` ? `` : `form-control-${this.size}`
-    },
+    // stateIconType() {
+    //   return !this.stateIcon || this.stateIcon === `default` ? `` : `form-control-${this.state}`
+    // },
+    // inputSize() {
+    //   return !this.size || this.size === `default` ? `` : `form-control-${this.size}`
+    // },
     row() {
       return labelClass && inputClass
+    },
+    inputClass() {
+      return {
+          'form-control': true,
+          disabled: this.disabled,
+          [`form-control-${this.state}`]: this.stateIcon && this.stateIcon !== 'default',
+          [`form-control-${this.size}`]: this.size && this.size !== 'default'
+      }
     }
   },
   props: {
@@ -59,5 +67,9 @@ export default {
       type: Boolean,
       default: true
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
 }
