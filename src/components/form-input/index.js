@@ -22,9 +22,8 @@ export default {
     inputClass() {
       return {
           'form-control': true,
-          disabled: this.disabled,
-          [`form-control-${this.state}`]: this.stateIcon && this.stateIcon !== 'default',
-          [`form-control-${this.size}`]: this.size && this.size !== 'default'
+          [`form-control-${this.state}`]: !!this.stateIcon && this.stateIcon !== 'default',
+          [`form-control-${this.size}`]: !!this.size && this.size !== 'default'
       }
     }
   },
