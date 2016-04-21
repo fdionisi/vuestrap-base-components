@@ -2187,6 +2187,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _ref = {
 	        'form-control': true
 	      }, _defineProperty(_ref, 'form-control-' + this.state, !!this.stateIcon && this.stateIcon !== 'default'), _defineProperty(_ref, 'form-control-' + this.size, !!this.size && this.size !== 'default'), _ref;
+	    },
+	    isNumber: function isNumber() {
+	      return this.type === 'number';
 	    }
 	  },
 	  props: {
@@ -2240,7 +2243,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 41 */
 /***/ function(module, exports) {
 
-	module.exports = "<fieldset class=\"form-group {{inputState}}\">\n    <label for=\"{{id}}\" v-if=\"label\" class=\"control-label\">{{label}}</label>\n    <div class=\"inputClass\">\n        <input\n            v-bind:disabled=\"disabled\"\n            v-bind:class=\"inputClass\"\n        \ttype=\"{{type}}\"\n        \tid=\"{{id}}\"\n        \tplaceholder=\"{{placeholder}}\"\n        \tv-model=\"model\">\n    </div>\n    <small class=\"text-muted\" v-if=\"description\" v-html=\"description\"></small>\n</fieldset>\n";
+	module.exports = "<fieldset class=\"form-group {{inputState}}\">\n    <label for=\"{{id}}\" v-if=\"label\" class=\"control-label\">{{label}}</label>\n    <div class=\"inputClass\">\n        <input\n            :disabled=\"disabled\"\n            :class=\"inputClass\"\n            :number=\"isNumber\"\n        \t:type=\"type\"\n        \t:id=\"id\"\n        \t:placeholder=\"placeholder\"\n        \tv-model=\"model\">\n    </div>\n    <small class=\"text-muted\" v-if=\"description\" v-html=\"description\"></small>\n</fieldset>\n";
 
 /***/ },
 /* 42 */
