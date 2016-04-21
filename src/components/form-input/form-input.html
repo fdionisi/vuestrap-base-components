@@ -2,8 +2,9 @@
     <label for="{{id}}" v-if="label" class="control-label">{{label}}</label>
     <div class="inputClass">
         <input
+            v-bind:disabled="disabled"
+            v-bind:class="inputClass"
         	type="{{type}}"
-        	v-bind:class="inputClass"
         	id="{{id}}"
         	placeholder="{{placeholder}}"
         	v-model="model">
