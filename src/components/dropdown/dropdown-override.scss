@@ -1,12 +1,13 @@
+$dropdown-border-color: rgba(0,0,0,.15);
 .dropup {
 	display: inline-block;
-} 
+}
 
 .dropdown {
 	&.dropdown-arrow {
 		.dropdown-menu {
 			margin-top: 10px;
-			&:before {		
+			&:before {
 				padding: 0;
 				width: 0;
 				height: 0;
@@ -19,7 +20,7 @@
 				left: 10px;
 			}
 			&.dropdown-menu-right {
-				&:before {		
+				&:before {
 					left: auto;
 					right: 10px;
 				}

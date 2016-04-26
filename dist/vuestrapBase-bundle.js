@@ -669,7 +669,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"btn-group\" data-toggle=\"buttons\">\n    <label \n    \tclass=\"btn {{btnVariant}} {{btnSize}} {{ selection == item.value ? 'active' : '' }}\" \n    \tv-for=\"item in list\">\n      <input \n      \ttype=\"radio\" \n      \tname=\"options\" \n      \tvalue=\"{{item.value}}\" \n      \tautocomplete=\"off\" \n      \tv-model=\"selection\"\n        :disabled=\"item.disabled\"> {{item.text}}\n    </label>\n</div>\n";
+	module.exports = "<div class=\"btn-group\" data-toggle=\"buttons\">\n    <label\n    \tclass=\"btn {{btnVariant}} {{btnSize}} {{ item.disabled ? 'disabled' : '' }} {{ selection == item.value ? 'active' : '' }}\"\n    \tv-for=\"item in list\">\n      <input\n      \ttype=\"radio\"\n      \tname=\"options\"\n      \tvalue=\"{{item.value}}\"\n      \tautocomplete=\"off\"\n      \tv-model=\"selection\"\n        :disabled=\"item.disabled\"> {{item.text}}\n    </label>\n</div>\n";
 
 /***/ },
 /* 14 */
