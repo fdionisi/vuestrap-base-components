@@ -37,7 +37,7 @@ export default {
       if (!this.returnObject && this.model) {
         let result = this.model || ''
         this.list.forEach((item) => {
-          if (item.value === this.model) {
+          if (item.value._id === this.model._id) {
             result = item.text
           }
         })
@@ -125,7 +125,12 @@ export default {
       this.show = false
     }
   },
-  ready() {
-
+  ready: function ready() {
+    if (this.model) {
+      const item = (this.list || []).find(
+        i => i.value._id === this.model._id
+      )
+      item && this.select(item)
+    }
   }
 }
