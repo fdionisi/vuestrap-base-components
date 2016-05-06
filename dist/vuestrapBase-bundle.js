@@ -1793,7 +1793,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (!this.returnObject && this.model) {
 	        var result = this.model || '';
 	        this.list.forEach(function (item) {
-	          if (item.value === _this.model) {
+	          if (item.value._id === _this.model._id) {
 	            result = item.text;
 	          }
 	        });
@@ -1881,7 +1881,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.show = false;
 	    }
 	  },
-	  ready: function ready() {}
+	  ready: function ready() {
+	    var _this2 = this;
+
+	    if (this.model) {
+	      var item = (this.list || []).find(function (i) {
+	        return i.value._id === _this2.model._id;
+	      });
+	      item && this.select(item);
+	    }
+	  }
 	};
 	module.exports = exports['default'];
 
@@ -3240,7 +3249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.2.3 */
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.3.1 */
 
 	(function(root, factory) {
 	  if (true) {
@@ -3263,6 +3272,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  TetherBase = { modules: [] };
 	}
 
+	var zeroElement = null;
+
 	function getScrollParents(el) {
 	  // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
 	  // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
@@ -3275,7 +3286,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  var parent = el;
-	  while (parent = parent.parentNode) {
+	  while ((parent = parent.parentNode) && parent && parent.nodeType === 1) {
 	    var style = undefined;
 	    try {
 	      style = getComputedStyle(parent);
@@ -3310,14 +3321,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 	var zeroPosCache = {};
-	var getOrigin = function getOrigin(doc) {
+	var getOrigin = function getOrigin() {
 	  // getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
 	  // jitter as the user scrolls that messes with our ability to detect if two positions
 	  // are equivilant or not.  We place an element at the top left of the page that will
 	  // get the same jitter, so we can cancel the two out.
-	  var node = doc._tetherZeroElement;
-	  if (typeof node === 'undefined') {
-	    node = doc.createElement('div');
+	  var node = zeroElement;
+	  if (!node) {
+	    node = document.createElement('div');
 	    node.setAttribute('data-tether-id', uniqueId());
 	    extend(node.style, {
 	      top: 0,
@@ -3325,9 +3336,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      position: 'absolute'
 	    });
 
-	    doc.body.appendChild(node);
+	    document.body.appendChild(node);
 
-	    doc._tetherZeroElement = node;
+	    zeroElement = node;
 	  }
 
 	  var id = node.getAttribute('data-tether-id');
@@ -3349,6 +3360,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return zeroPosCache[id];
 	};
 
+	function removeUtilElements() {
+	  if (zeroElement) {
+	    document.body.removeChild(zeroElement);
+	  }
+	  zeroElement = null;
+	};
+
 	function getBounds(el) {
 	  var doc = undefined;
 	  if (el === document) {
@@ -3368,7 +3386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    box[k] = rect[k];
 	  }
 
-	  var origin = getOrigin(doc);
+	  var origin = getOrigin();
 
 	  box.top -= origin.top;
 	  box.left -= origin.left;
@@ -3616,7 +3634,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  flush: flush,
 	  uniqueId: uniqueId,
 	  Evented: Evented,
-	  getScrollBarSize: getScrollBarSize
+	  getScrollBarSize: getScrollBarSize,
+	  removeUtilElements: removeUtilElements
 	};
 	/* globals TetherBase, performance */
 
@@ -3626,7 +3645,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+	var _get = function get(_x6, _x7, _x8) { var _again = true; _function: while (_again) { var object = _x6, property = _x7, receiver = _x8; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x6 = parent; _x7 = property; _x8 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	if (typeof TetherBase === 'undefined') {
 	  throw new Error('You must include the utils.js file before tether.js');
@@ -3643,6 +3666,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var defer = _TetherBase$Utils.defer;
 	var flush = _TetherBase$Utils.flush;
 	var getScrollBarSize = _TetherBase$Utils.getScrollBarSize;
+	var removeUtilElements = _TetherBase$Utils.removeUtilElements;
 
 	function within(a, b) {
 	  var diff = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
@@ -3701,7 +3725,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 
-	    if (typeof pendingTimeout !== 'undefined') {
+	    if (pendingTimeout != null) {
 	      clearTimeout(pendingTimeout);
 	      pendingTimeout = null;
 	    }
@@ -3817,12 +3841,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var parseAttachment = parseOffset;
 
-	var TetherClass = (function () {
+	var TetherClass = (function (_Evented) {
+	  _inherits(TetherClass, _Evented);
+
 	  function TetherClass(options) {
 	    var _this = this;
 
 	    _classCallCheck(this, TetherClass);
 
+	    _get(Object.getPrototypeOf(TetherClass.prototype), 'constructor', this).call(this);
 	    this.position = this.position.bind(this);
 
 	    tethers.push(this);
@@ -4086,9 +4113,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      tethers.forEach(function (tether, i) {
 	        if (tether === _this5) {
 	          tethers.splice(i, 1);
-	          return;
 	        }
 	      });
+
+	      // Remove any elements we were using for convenience from the DOM
+	      if (tethers.length === 0) {
+	        removeUtilElements();
+	      }
 	    }
 	  }, {
 	    key: 'updateAttachClasses',
@@ -4429,7 +4460,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (!moved) {
 	        var offsetParentIsBody = true;
 	        var currentNode = this.element.parentNode;
-	        while (currentNode && currentNode.tagName !== 'BODY') {
+	        while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY') {
 	          if (getComputedStyle(currentNode).position !== 'static') {
 	            offsetParentIsBody = false;
 	            break;
@@ -4466,7 +4497,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return TetherClass;
-	})();
+	})(Evented);
 
 	TetherClass.modules = [];
 
@@ -4834,6 +4865,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      if (tAttachment.top !== targetAttachment.top || tAttachment.left !== targetAttachment.left || eAttachment.top !== _this.attachment.top || eAttachment.left !== _this.attachment.left) {
 	        _this.updateAttachClasses(eAttachment, tAttachment);
+	        _this.trigger('update', {
+	          attachment: eAttachment,
+	          targetAttachment: tAttachment
+	        });
 	      }
 	    });
 
