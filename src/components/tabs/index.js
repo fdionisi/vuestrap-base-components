@@ -33,6 +33,21 @@ export const tabs = {
   methods: {
 
     /**
+     * define nav-link tab classes
+     * @return {Object}
+     */
+    tabClassName(index) {
+      const child = this.$children[index] || {}
+      return {
+        'nav-link': true,
+        [this.btnSize]: true,
+        btn: true,
+        active: child.active,
+        disabled: child.disabled
+      }
+    },
+
+    /**
      * get an index of an active tab
      * @return {Number}
      */
