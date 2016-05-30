@@ -53,8 +53,8 @@ export const tabs = {
      */
     getActive() {
       let active = -1
-      this.items.forEach((item, index) => {
-        if (item.active) {
+      this.$children.forEach((child, index) => {
+        if (child.active) {
           active = index
         }
       })
@@ -65,24 +65,31 @@ export const tabs = {
      * set active tab on the items collection and the child 'tab' component
      */
     setActive(index) {
+      const child = this.$children[index] || {}
       // ignore disabled
-      if (this.items[index].disabled) return
+      if (child.disabled) return
+
+      const activeTab = this.getActive()
+
+      // ignore when same tab
+      if (activeTab === index) return
 
       // deactivate previous active tab
-      const activeTab = this.getActive()
       if (activeTab !== -1) {
         // setting animate to false will trigger fade out effect
         this.items[activeTab].active = false
+        this.$children[activeTab].active = false
         this.$children[activeTab].$set('animate', false)
         this.$children[activeTab].$set('active', false)
       }
 
       // set new active tab and animate (if fade flag is set to true)
-      this.$children[index].$set('active', true)
+      child.$set('active', true)
       this._tabAnimation = setTimeout(() => {
         // setting animate to true will trigger fade in effect
         this.items[index].active = true
-        this.$children[index].$set('animate', true)
+        child.active = true
+        child.$set('animate', true)
         this.$dispatch('changed::tab', this.items[index].id)
       }, this.fade ? TRANSITION_DURATION : 0)
     },
