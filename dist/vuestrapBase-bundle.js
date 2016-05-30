@@ -5310,8 +5310,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    getActive: function getActive() {
 	      var active = -1;
-	      this.items.forEach(function (item, index) {
-	        if (item.active) {
+	      this.$children.forEach(function (child, index) {
+	        if (child.active) {
 	          active = index;
 	        }
 	      });
@@ -5324,24 +5324,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	    setActive: function setActive(index) {
 	      var _this = this;
 
+	      var child = this.$children[index] || {};
 	      // ignore disabled
-	      if (this.items[index].disabled) return;
+	      if (child.disabled) return;
+
+	      var activeTab = this.getActive();
+
+	      // ignore when same tab
+	      if (activeTab === index) return;
 
 	      // deactivate previous active tab
-	      var activeTab = this.getActive();
 	      if (activeTab !== -1) {
 	        // setting animate to false will trigger fade out effect
 	        this.items[activeTab].active = false;
+	        this.$children[activeTab].active = false;
 	        this.$children[activeTab].$set('animate', false);
 	        this.$children[activeTab].$set('active', false);
 	      }
 
 	      // set new active tab and animate (if fade flag is set to true)
-	      this.$children[index].$set('active', true);
+	      child.$set('active', true);
 	      this._tabAnimation = setTimeout(function () {
 	        // setting animate to true will trigger fade in effect
 	        _this.items[index].active = true;
-	        _this.$children[index].$set('animate', true);
+	        child.active = true;
+	        child.$set('animate', true);
 	        _this.$dispatch('changed::tab', _this.items[index].id);
 	      }, this.fade ? TRANSITION_DURATION : 0);
 	    }
