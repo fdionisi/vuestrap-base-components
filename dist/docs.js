@@ -12091,6 +12091,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	var _tabsHtml = __webpack_require__(301);
 
 	var _tabsHtml2 = _interopRequireDefault(_tabsHtml);
@@ -12126,6 +12128,19 @@
 	    }
 	  },
 	  methods: {
+
+	    /**
+	     * define nav-link tab classes
+	     * @return {Object}
+	     */
+	    tabClassName: function tabClassName(index) {
+	      var _ref;
+
+	      var child = this.$children[index] || {};
+	      return _ref = {
+	        'nav-link': true
+	      }, _defineProperty(_ref, this.btnSize, true), _defineProperty(_ref, 'btn', true), _defineProperty(_ref, 'active', child.active), _defineProperty(_ref, 'disabled', child.disabled), _ref;
+	    },
 
 	    /**
 	     * get an index of an active tab
@@ -12220,7 +12235,7 @@
 /* 301 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"tabs\">\n  <ul class=\"nav nav-tabs\">\n    <li class=\"nav-item\" v-for=\"item in items\" v-on:click=\"setActive($index)\">\n      <span class=\"nav-link btn {{btnSize}} {{item.active ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}\">{{item.title}}</span>\n    </li>\n  </ul>\n  <div class=\"tab-content\">\n    <slot></slot>\n  </div>\n</div>";
+	module.exports = "<div class=\"tabs\">\n  <ul class=\"nav nav-tabs\">\n    <li class=\"nav-item\" v-for=\"item in items\" v-on:click=\"setActive($index)\">\n      <span v-bind:class=\"tabClassName($index)\">{{item.title}}</span>\n    </li>\n  </ul>\n  <div class=\"tab-content\">\n    <slot></slot>\n  </div>\n</div>\n";
 
 /***/ },
 /* 302 */
